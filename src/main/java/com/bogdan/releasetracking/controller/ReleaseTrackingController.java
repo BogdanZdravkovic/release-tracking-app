@@ -1,7 +1,11 @@
 package com.bogdan.releasetracking.controller;
 
+import com.bogdan.releasetracking.dto.UpdateReleaseWsDTO;
 import com.bogdan.releasetracking.model.Release;
-import com.bogdan.releasetracking.repository.ReleaseRepository;
+import com.bogdan.releasetracking.service.ReleaseService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,20 +25,22 @@ import java.util.Optional;
 @RequestMapping("/releases")
 public class ReleaseTrackingController {
 
-    private final ReleaseRepository releaseRepository;
-
-    public ReleaseTrackingController(ReleaseRepository releaseRepository) {
-        this.releaseRepository = releaseRepository;
-    }
+    @Autowired
+    private ReleaseService releaseService;
 
     @GetMapping
+    @Operation(summary = "Get all releases")
+    @ApiResponse(responseCode = "200", description = "OK")
     public List<Release> getAllReleases() {
-        return releaseRepository.findAll();
+        return releaseService.getAllReleases();
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get release by ID")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "404", description = "Release not found")
     public ResponseEntity<Release> getReleaseById(@PathVariable Long id) {
-        Optional<Release> release = releaseRepository.findById(id);
+        Optional<Release> release = releaseService.getReleaseById(id);
         if (release.isPresent()) {
             return ResponseEntity.ok(release.get());
         }
@@ -42,24 +48,27 @@ public class ReleaseTrackingController {
     }
 
     @PostMapping
-    public ResponseEntity<Release> createRelease(@Valid @RequestBody Release release) {
-        Release newRelease = releaseRepository.save(release);
+    @Operation(summary = "Create release")
+    @ApiResponse(responseCode = "201", description = "Created")
+    public ResponseEntity<Release> createRelease(@Valid @RequestBody UpdateReleaseWsDTO releaseWsDTO) {
+        Release newRelease = releaseService.createRelease(releaseWsDTO);
         return ResponseEntity.created(URI.create("/releases/" + newRelease.getId())).body(newRelease);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Release> updateRelease(@PathVariable Long id, @Valid @RequestBody Release release) {
-        Release currentRelease = releaseRepository.findById(id).orElseThrow(RuntimeException::new);
-        currentRelease.setName(release.getName());
-        currentRelease.setDescription(release.getDescription());
-        currentRelease = releaseRepository.save(currentRelease);
-
+    @Operation(summary = "Update release")
+    @ApiResponse(responseCode = "201", description = "Updated")
+    @ApiResponse(responseCode = "404", description = "Release not found")
+    public ResponseEntity<Release> updateRelease(@PathVariable Long id, @Valid @RequestBody UpdateReleaseWsDTO releaseWsDTO) {
+        Release currentRelease = releaseService.updateRelease(releaseWsDTO, id);
         return ResponseEntity.ok(currentRelease);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete release")
+    @ApiResponse(responseCode = "201", description = "Deleted")
     public ResponseEntity<Void> deleteRelease(@PathVariable Long id) {
-        releaseRepository.deleteById(id);
+        releaseService.deleteRelease(id);
         return ResponseEntity.noContent().build();
     }
 }

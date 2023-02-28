@@ -1,13 +1,20 @@
 package com.bogdan.releasetracking.service;
 
+import com.bogdan.releasetracking.dto.UpdateReleaseWsDTO;
+import com.bogdan.releasetracking.model.Release;
 
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class ReleaseService {
+public interface ReleaseService {
 
+    List<Release> getAllReleases();
+
+    Optional<Release> getReleaseById(Long id);
+
+    Release updateRelease(UpdateReleaseWsDTO releaseWsDTO, Long id);
+
+    Release createRelease(UpdateReleaseWsDTO releaseWsDTO);
+
+    void deleteRelease(Long id);
 }

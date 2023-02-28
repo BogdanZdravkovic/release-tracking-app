@@ -8,8 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Enumerated;
 import javax.persistence.EnumType;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "release")
@@ -19,6 +20,7 @@ public class Release {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String name;
 
     private String description;
@@ -27,7 +29,8 @@ public class Release {
     @Column(name="releaseStatus")
     private ReleaseStatus status;
 
-    private Date releaseDate;
+    @NotNull
+    private LocalDate releaseDate;
 
     private LocalDateTime createdAt;
 
@@ -65,11 +68,11 @@ public class Release {
         this.status = status;
     }
 
-    public Date getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 

@@ -1,0 +1,157 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: 'http://localhost:8080'
+    description: Generated server url
+paths:
+  '/releases/{id}':
+    get:
+      tags:
+        - release-tracking-controller
+      summary: Get release by ID
+      operationId: getReleaseById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Release'
+        '404':
+          description: Release not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Release'
+    put:
+      tags:
+        - release-tracking-controller
+      summary: Update release
+      operationId: updateRelease
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateReleaseWsDTO'
+        required: true
+      responses:
+        '201':
+          description: Updated
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Release'
+        '404':
+          description: Release not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Release'
+    delete:
+      tags:
+        - release-tracking-controller
+      summary: Delete release
+      operationId: deleteRelease
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '201':
+          description: Deleted
+  /releases:
+    get:
+      tags:
+        - release-tracking-controller
+      summary: Get all releases
+      operationId: getAllReleases
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Release'
+    post:
+      tags:
+        - release-tracking-controller
+      summary: Create release
+      operationId: createRelease
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateReleaseWsDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Release'
+components:
+  schemas:
+    UpdateReleaseWsDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+        releaseDate:
+          type: string
+          format: date
+    Release:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum:
+            - CREATED
+            - IN_DEVELOPMENT
+            - ON_DEV
+            - QA_DONE_ON_DEV
+            - ON_STAGING
+            - QA_DONE_STAGING
+            - ON_PROD
+            - DONE
+        releaseDate:
+          type: string
+          format: date
+        createdAt:
+          type: string
+          format: date-time
+        lastUpdateAt:
+          type: string
+          format: date-time

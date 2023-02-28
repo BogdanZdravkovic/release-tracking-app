@@ -41,6 +41,10 @@ class ReleaseList extends Component {
             return <tr key={release.id}>
                 <td style={{whiteSpace: 'nowrap'}}>{release.name}</td>
                 <td>{release.description}</td>
+                <td>{release.status}</td>
+                <td>{release.releaseDate}</td>
+                <td>{release.createdAt}</td>
+                <td>{release.lastUpdateAt}</td>
                 <td>
                     <ButtonGroup>
                         <Button size="sm" color="primary" tag={Link} to={"/releases/" + release.id}>Edit</Button>
@@ -61,8 +65,12 @@ class ReleaseList extends Component {
                     <Table className="mt-4">
                         <thead>
                         <tr>
-                            <th width="30%">Name</th>
-                            <th width="30%">Description</th>
+                            <th width="10%">Name</th>
+                            <th width="10%">Description</th>
+                            <th width="10%">Status</th>
+                            <th width="10%">Release date</th>
+                            <th width="10%">Created</th>
+                            <th width="10%">Last updated</th>
                             <th width="40%">Actions</th>
                         </tr>
                         </thead>

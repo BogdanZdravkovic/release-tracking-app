@@ -1,10 +1,5 @@
 package com.bogdan.releasetracking.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-//@Entity
-//@Table(name = "releaseStatus")
 public enum ReleaseStatus {
     CREATED,
     IN_DEVELOPMENT,
