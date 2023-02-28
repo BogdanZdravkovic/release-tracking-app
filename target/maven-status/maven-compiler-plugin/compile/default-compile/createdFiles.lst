@@ -1,0 +1,6 @@
+com/bogdan/releasetracking/model/Release.class
+com/bogdan/releasetracking/repository/ReleaseRepository.class
+com/bogdan/releasetracking/service/ReleaseService.class
+com/bogdan/releasetracking/ReleaseTrackingApplication.class
+com/bogdan/releasetracking/model/ReleaseStatus.class
+com/bogdan/releasetracking/controller/ReleaseTrackingController.class
