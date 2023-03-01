@@ -31,3 +31,16 @@ build/
 
 ### VS Code ###
 .vscode/
+/target/
+/frontend/build/
+/frontend/node/
+/frontend/node_modules/
+/.idea/
+/.mvn/
+/gen/
+
+releasetracking.iml
+mvnw
+mvnw.cmd
+frontend/package-lock.json
+frontend/yarn.lock

@@ -40,8 +40,8 @@ public class DefaultReleaseServiceImpl  implements ReleaseService {
         this.releaseRepository = releaseRepository;
     }
 
-
     @Override
+    @CachePut(value = "releases")
     public List<Release> getAllReleases() {
         return releaseRepository.findAll();
     }
