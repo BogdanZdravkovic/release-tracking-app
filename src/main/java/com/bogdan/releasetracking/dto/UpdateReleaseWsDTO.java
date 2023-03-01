@@ -10,14 +10,14 @@ public class UpdateReleaseWsDTO {
     @ApiModelProperty(name="name")
     private String name;
 
-    @ApiModelProperty(name="name")
+    @ApiModelProperty(name="description")
     private String description;
 
     @ValueOfEnum(enumClass = ReleaseStatus.class)
-    @ApiModelProperty(name="name")
+    @ApiModelProperty(name="status")
     private String status;
 
-    @ApiModelProperty(name="name")
+    @ApiModelProperty(name="release_date")
     @JsonProperty("release_date")
     private String releaseDate;
 

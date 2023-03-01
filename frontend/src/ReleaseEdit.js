@@ -9,7 +9,7 @@ class ReleaseEdit extends Component {
         name: '',
         description: '',
         status: '',
-        releaseDate: ''
+        release_date: ''
     };
 
     constructor(props) {
@@ -78,7 +78,7 @@ class ReleaseEdit extends Component {
                     </FormGroup>
                     <FormGroup>
                         <Label for="email">Release date</Label>
-                        <Input type="text" name="releaseDate" id="releaseDate" value={item.releaseDate || ''}
+                        <Input type="text" name="release_date" id="releaseDate" value={item.release_date || ''}
                                onChange={this.handleChange} autoComplete="releaseDate"/>
                     </FormGroup>
                     <FormGroup>
