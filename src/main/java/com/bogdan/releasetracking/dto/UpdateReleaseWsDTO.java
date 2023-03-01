@@ -5,8 +5,6 @@ import com.bogdan.releasetracking.validator.ValueOfEnum;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.time.LocalDate;
-
 public class UpdateReleaseWsDTO {
 
     @ApiModelProperty(name="name")

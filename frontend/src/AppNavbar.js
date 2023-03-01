@@ -19,7 +19,7 @@ export default class AppNavbar extends Component {
         return (
             <Navbar color="dark" dark expand="md">
                 <NavbarBrand tag={Link} to="/">
-                    <img srcSet="logo.svg" id="navbar-img"/>
+                    <img src="logo.png" srcSet="logo.svg" id="navbar-img"/>
                     Release Tracker
                 </NavbarBrand>
             </Navbar>
