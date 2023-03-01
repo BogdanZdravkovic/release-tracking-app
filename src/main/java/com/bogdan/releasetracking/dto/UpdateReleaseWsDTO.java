@@ -1,5 +1,8 @@
 package com.bogdan.releasetracking.dto;
 
+import com.bogdan.releasetracking.model.ReleaseStatus;
+import com.bogdan.releasetracking.validator.ValueOfEnum;
+
 import java.time.LocalDate;
 
 public class UpdateReleaseWsDTO {
@@ -8,6 +11,7 @@ public class UpdateReleaseWsDTO {
 
     private String description;
 
+    @ValueOfEnum(enumClass = ReleaseStatus.class)
     private String status;
 
     private LocalDate releaseDate;

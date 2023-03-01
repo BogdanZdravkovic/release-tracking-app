@@ -2,6 +2,7 @@ package com.bogdan.releasetracking.service.impl;
 
 
 import com.bogdan.releasetracking.dto.UpdateReleaseWsDTO;
+import com.bogdan.releasetracking.exception.ReleaseValidationException;
 import com.bogdan.releasetracking.model.Release;
 import com.bogdan.releasetracking.model.ReleaseStatus;
 import com.bogdan.releasetracking.repository.ReleaseRepository;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -31,8 +31,8 @@ public class DefaultReleaseServiceImpl  implements ReleaseService {
     }
 
     @Override
-    public Optional<Release> getReleaseById(Long id) {
-        return releaseRepository.findById(id);
+    public Release getReleaseById(Long id) {
+        return releaseRepository.findById(id).orElseThrow(() -> new ReleaseValidationException("No release found for given ID.", String.valueOf(id)));
     }
 
     @Override

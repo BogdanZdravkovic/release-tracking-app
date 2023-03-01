@@ -4,13 +4,12 @@ import com.bogdan.releasetracking.dto.UpdateReleaseWsDTO;
 import com.bogdan.releasetracking.model.Release;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ReleaseService {
 
     List<Release> getAllReleases();
 
-    Optional<Release> getReleaseById(Long id);
+    Release getReleaseById(Long id);
 
     Release updateRelease(UpdateReleaseWsDTO releaseWsDTO, Long id);
 

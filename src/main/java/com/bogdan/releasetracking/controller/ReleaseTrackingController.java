@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/releases")
@@ -40,9 +40,9 @@ public class ReleaseTrackingController {
     @ApiResponse(responseCode = "200", description = "OK")
     @ApiResponse(responseCode = "404", description = "Release not found")
     public ResponseEntity<Release> getReleaseById(@PathVariable Long id) {
-        Optional<Release> release = releaseService.getReleaseById(id);
-        if (release.isPresent()) {
-            return ResponseEntity.ok(release.get());
+        Release release = releaseService.getReleaseById(id);
+        if (Objects.nonNull(release)) {
+            return ResponseEntity.ok(release);
         }
         return ResponseEntity.notFound().build();
     }
