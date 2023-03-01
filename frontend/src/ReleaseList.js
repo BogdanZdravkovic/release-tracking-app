@@ -58,7 +58,7 @@ class ReleaseList extends Component {
             <div>
                 <AppNavbar/>
                 <Container fluid>
-                    <div className="float-right">
+                    <div className="float-right create-new-btn">
                         <Button color="success" tag={Link} to="/releases/new">Add new release</Button>
                     </div>
                     <h3>Releases</h3>

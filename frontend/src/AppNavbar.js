@@ -16,8 +16,13 @@ export default class AppNavbar extends Component {
     }
 
     render() {
-        return <Navbar color="dark" dark expand="md">
-            <NavbarBrand tag={Link} to="/">Release Tracker</NavbarBrand>
-        </Navbar>;
+        return (
+            <Navbar color="dark" dark expand="md">
+                <NavbarBrand tag={Link} to="/">
+                    <img srcSet="logo.svg" id="navbar-img"/>
+                    Release Tracker
+                </NavbarBrand>
+            </Navbar>
+        );
     }
 }

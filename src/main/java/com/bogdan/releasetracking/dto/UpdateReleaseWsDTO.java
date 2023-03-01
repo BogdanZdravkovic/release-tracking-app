@@ -2,19 +2,26 @@ package com.bogdan.releasetracking.dto;
 
 import com.bogdan.releasetracking.model.ReleaseStatus;
 import com.bogdan.releasetracking.validator.ValueOfEnum;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDate;
 
 public class UpdateReleaseWsDTO {
 
+    @ApiModelProperty(name="name")
     private String name;
 
+    @ApiModelProperty(name="name")
     private String description;
 
     @ValueOfEnum(enumClass = ReleaseStatus.class)
+    @ApiModelProperty(name="name")
     private String status;
 
-    private LocalDate releaseDate;
+    @ApiModelProperty(name="name")
+    @JsonProperty("release_date")
+    private String releaseDate;
 
     public String getName() {
         return name;
@@ -40,11 +47,11 @@ public class UpdateReleaseWsDTO {
         this.status = status;
     }
 
-    public LocalDate getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 }
