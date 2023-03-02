@@ -18,7 +18,7 @@ export default class AppNavbar extends Component {
     render() {
         return (
             <Navbar color="dark" dark expand="md">
-                <NavbarBrand tag={Link} to="/">
+                <NavbarBrand tag={Link} to="/" id="navbar-title">
                     Release Tracker
                 </NavbarBrand>
             </Navbar>

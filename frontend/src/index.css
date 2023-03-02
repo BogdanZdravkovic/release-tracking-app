@@ -12,10 +12,8 @@ code {
     monospace;
 }
 
-#navbar-img {
-  height: 45px;
-  width: 45px;
-  margin: 7px;
+#navbar-title{
+  margin-left: 7px;
 }
 
 .create-new-btn{
