@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 public class ReleaseEventProducer {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReleaseEventProducer.class);
-    public final static String TOPIC = "release_status_change";
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 

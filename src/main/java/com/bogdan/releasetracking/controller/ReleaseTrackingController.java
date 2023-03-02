@@ -22,6 +22,7 @@ import java.util.Objects;
 public class ReleaseTrackingController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReleaseTrackingController.class);
+    private static final String TOPIC_NAME = "release_tracking";
 
     @Autowired
     private ReleaseEventProducer releaseEventProducer;
@@ -65,7 +66,7 @@ public class ReleaseTrackingController {
     @ApiResponse(responseCode = "404", description = "Release not found")
     public ResponseEntity<Release> updateRelease(@PathVariable Long id, @Valid @RequestBody UpdateReleaseWsDTO releaseWsDTO) {
         LOG.info("inside updateRelease() method");
-        releaseEventProducer.sendReleaseEvent("${spring.kafka.topic.name}" ,releaseWsDTO.getStatus());
+        releaseEventProducer.sendReleaseEvent(TOPIC_NAME, releaseWsDTO.getStatus());
         Release currentRelease = releaseService.updateRelease(releaseWsDTO, id);
         return ResponseEntity.ok(currentRelease);
     }
