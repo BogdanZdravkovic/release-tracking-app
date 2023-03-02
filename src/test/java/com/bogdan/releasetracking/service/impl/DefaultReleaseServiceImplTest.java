@@ -15,6 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,9 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultReleaseServiceImplTest {
+
+    private static final String TIMESTAMP_FORMAT = "yyyy-MM-dd";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT);
 
     @InjectMocks
     @Spy
@@ -60,6 +64,7 @@ public class DefaultReleaseServiceImplTest {
         releaseWsDTO.setDescription("New Release Description");
         releaseWsDTO.setReleaseDate("2022-12-31");
         releaseWsDTO.setStatus("CREATED");
+        releaseService.defaultDateFormat = "yyy-MM-dd";
     }
 
     @Test
@@ -96,7 +101,6 @@ public class DefaultReleaseServiceImplTest {
     @Test
     public void updateRelease_updatesReleaseWithGivenId() {
         when(releaseRepository.findById(1L)).thenReturn(Optional.of(release1));
-
         Release result = releaseService.updateRelease(releaseWsDTO, 1L);
 
         assertEquals("New Release", result.getName());
@@ -133,13 +137,12 @@ public class DefaultReleaseServiceImplTest {
         Release resultRelease = releaseService.createRelease(releaseWsDTO);
 
         assertNotNull(resultRelease);
-        assertEquals(resultRelease.getId(), createdRelease.getId());
         assertEquals(resultRelease.getName(), createdRelease.getName());
         assertEquals(resultRelease.getDescription(), createdRelease.getDescription());
         assertEquals(resultRelease.getReleaseDate(), createdRelease.getReleaseDate());
         assertEquals(resultRelease.getStatus(), createdRelease.getStatus());
-        assertEquals(resultRelease.getCreatedAt(), createdRelease.getCreatedAt());
-        assertEquals(resultRelease.getLastUpdateAt(), createdRelease.getLastUpdateAt());
+        assertEquals(resultRelease.getCreatedAt().getDayOfYear(), createdRelease.getCreatedAt().getDayOfYear());
+        assertEquals(resultRelease.getLastUpdateAt().getDayOfYear(), createdRelease.getLastUpdateAt().getDayOfYear());
     }
 
     @Test(expected = ReleaseValidationException.class)

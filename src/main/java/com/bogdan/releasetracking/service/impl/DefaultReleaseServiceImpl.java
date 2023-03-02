@@ -30,7 +30,7 @@ public class DefaultReleaseServiceImpl  implements ReleaseService {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultReleaseServiceImpl.class);
 
     @Value("${default.date.format:yyyy-MM-dd}")
-    private String defaultDateFormat;
+    protected String defaultDateFormat;
 
     @Autowired
     private ReleaseRepository releaseRepository;
