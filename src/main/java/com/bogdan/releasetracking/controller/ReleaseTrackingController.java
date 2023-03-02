@@ -66,7 +66,7 @@ public class ReleaseTrackingController {
     @ApiResponse(responseCode = "404", description = "Release not found")
     public ResponseEntity<Release> updateRelease(@PathVariable Long id, @Valid @RequestBody ReleaseRequestWsDTO releaseWsDTO) {
         LOG.info("inside updateRelease() method");
-//        releaseEventProducer.sendReleaseEvent(TOPIC_NAME, releaseWsDTO.getStatus()); kafka konfiguraiton disabled
+//        releaseEventProducer.sendReleaseEvent(TOPIC_NAME, releaseWsDTO.getStatus()); kafka Configuraiton disabled
         Release currentRelease = releaseService.updateRelease(releaseWsDTO, id);
         return ResponseEntity.ok(currentRelease);
     }

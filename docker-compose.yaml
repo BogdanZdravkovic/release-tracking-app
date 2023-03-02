@@ -1,0 +1,29 @@
+version: '2'
+services:
+  release-tracking-app:
+    restart: always
+    container_name: release-tracking-app
+    ports:
+    - "8080:8080"
+    depends_on:
+      - kafka
+      - zookeeper
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: 'zookeeper'
+    ports:
+    - "2181:2181"
+
+  kafka:
+    image: wurstmeister/zookeeper
+    container_name: 'kafka'
+    ports:
+    - "9002:9002"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+      KAFKA_ZOOKEEPER_CONNET: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "release_tracking:1:3"
+

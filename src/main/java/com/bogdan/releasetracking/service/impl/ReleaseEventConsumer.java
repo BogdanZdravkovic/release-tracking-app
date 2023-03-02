@@ -11,8 +11,9 @@ public class ReleaseEventConsumer {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReleaseEventProducer.class);
 
-//    @KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "${spring.kafka.consumer.group-id}")  -> TODO @Kafka Listener disabled because of missing configuraiton
+//    @KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "${spring.kafka.consumer.group-id}")
+//    -> TODO @Kafka Listener disabled because of missing configuraiton
     public void consume(ConsumerRecord<String, String> payload){
-        LOG.info(String.format("key: %s , header: %s, Valu: %s", payload.key()), payload.headers(), payload.value());
+        LOG.info("key:", payload.key());
     }
 }
