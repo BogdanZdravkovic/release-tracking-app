@@ -2,10 +2,10 @@ package com.bogdan.releasetracking.dto;
 
 import com.bogdan.releasetracking.model.ReleaseStatus;
 import com.bogdan.releasetracking.validator.ValueOfEnum;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 
-public class UpdateReleaseWsDTO {
+public class ReleaseRequestWsDTO {
 
     @ApiModelProperty(name="name")
     private String name;
@@ -15,10 +15,10 @@ public class UpdateReleaseWsDTO {
 
     @ValueOfEnum(enumClass = ReleaseStatus.class)
     @ApiModelProperty(name="status")
+    @Nullable
     private String status;
 
     @ApiModelProperty(name="release_date")
-    @JsonProperty("release_date")
     private String releaseDate;
 
     public String getName() {

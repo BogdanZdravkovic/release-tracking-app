@@ -1,9 +1,8 @@
 package com.bogdan.releasetracking.controller;
 
-import com.bogdan.releasetracking.dto.UpdateReleaseWsDTO;
+import com.bogdan.releasetracking.dto.ReleaseRequestWsDTO;
 import com.bogdan.releasetracking.model.Release;
 import com.bogdan.releasetracking.service.ReleaseService;
-import com.bogdan.releasetracking.service.impl.ReleaseEventProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.slf4j.Logger;
@@ -22,10 +21,6 @@ import java.util.Objects;
 public class ReleaseTrackingController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReleaseTrackingController.class);
-    private static final String TOPIC_NAME = "release_tracking";
-
-    @Autowired
-    private ReleaseEventProducer releaseEventProducer;
 
     @Autowired
     private ReleaseService releaseService;
@@ -54,7 +49,7 @@ public class ReleaseTrackingController {
     @PostMapping
     @Operation(summary = "Create release")
     @ApiResponse(responseCode = "201", description = "Created")
-    public ResponseEntity<Release> createRelease(@Valid @RequestBody UpdateReleaseWsDTO releaseWsDTO) {
+    public ResponseEntity<Release> createRelease(@Valid @RequestBody ReleaseRequestWsDTO releaseWsDTO) {
         LOG.info("inside createRelease() method");
         Release newRelease = releaseService.createRelease(releaseWsDTO);
         return ResponseEntity.created(URI.create("/releases/" + newRelease.getId())).body(newRelease);
@@ -64,9 +59,8 @@ public class ReleaseTrackingController {
     @Operation(summary = "Update release")
     @ApiResponse(responseCode = "201", description = "Updated")
     @ApiResponse(responseCode = "404", description = "Release not found")
-    public ResponseEntity<Release> updateRelease(@PathVariable Long id, @Valid @RequestBody UpdateReleaseWsDTO releaseWsDTO) {
+    public ResponseEntity<Release> updateRelease(@PathVariable Long id, @Valid @RequestBody ReleaseRequestWsDTO releaseWsDTO) {
         LOG.info("inside updateRelease() method");
-        releaseEventProducer.sendReleaseEvent(TOPIC_NAME, releaseWsDTO.getStatus());
         Release currentRelease = releaseService.updateRelease(releaseWsDTO, id);
         return ResponseEntity.ok(currentRelease);
     }

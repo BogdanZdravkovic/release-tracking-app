@@ -1,6 +1,6 @@
 package com.bogdan.releasetracking.service.impl;
 
-import com.bogdan.releasetracking.dto.UpdateReleaseWsDTO;
+import com.bogdan.releasetracking.dto.ReleaseRequestWsDTO;
 import com.bogdan.releasetracking.exception.ReleaseValidationException;
 import com.bogdan.releasetracking.model.Release;
 import com.bogdan.releasetracking.model.ReleaseStatus;
@@ -37,7 +37,7 @@ public class DefaultReleaseServiceImplTest {
 
     private Release release1;
     private Release release2;
-    private UpdateReleaseWsDTO releaseWsDTO;
+    private ReleaseRequestWsDTO releaseWsDTO;
 
     @Before
     public void setUp() {
@@ -55,7 +55,7 @@ public class DefaultReleaseServiceImplTest {
         release2.setReleaseDate(LocalDate.parse("2022-12-31"));
         release2.setStatus(ReleaseStatus.CREATED);
 
-        releaseWsDTO = new UpdateReleaseWsDTO();
+        releaseWsDTO = new ReleaseRequestWsDTO();
         releaseWsDTO.setName("New Release");
         releaseWsDTO.setDescription("New Release Description");
         releaseWsDTO.setReleaseDate("2022-12-31");
@@ -114,7 +114,7 @@ public class DefaultReleaseServiceImplTest {
 
     @Test
     public void testCreateRelease() {
-        UpdateReleaseWsDTO releaseWsDTO = new UpdateReleaseWsDTO();
+        ReleaseRequestWsDTO releaseWsDTO = new ReleaseRequestWsDTO();
         releaseWsDTO.setName("Test Release");
         releaseWsDTO.setDescription("Test Description");
         releaseWsDTO.setReleaseDate("2023-03-02");
@@ -144,7 +144,7 @@ public class DefaultReleaseServiceImplTest {
 
     @Test(expected = ReleaseValidationException.class)
     public void testCreateReleaseWithEmptyReleaseDate() {
-        UpdateReleaseWsDTO releaseWsDTO = new UpdateReleaseWsDTO();
+        ReleaseRequestWsDTO releaseWsDTO = new ReleaseRequestWsDTO();
         releaseWsDTO.setName("Test Release");
         releaseWsDTO.setDescription("Test Description");
         releaseWsDTO.setReleaseDate("");

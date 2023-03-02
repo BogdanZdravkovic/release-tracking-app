@@ -1,9 +1,8 @@
 package com.bogdan.releasetracking.controller;
 
-import com.bogdan.releasetracking.dto.UpdateReleaseWsDTO;
+import com.bogdan.releasetracking.dto.ReleaseRequestWsDTO;
 import com.bogdan.releasetracking.model.Release;
 import com.bogdan.releasetracking.service.ReleaseService;
-import com.bogdan.releasetracking.service.impl.ReleaseEventProducer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,9 +38,6 @@ public class ReleaseTrackingControllerTest {
 
     @Mock
     private ReleaseService releaseService;
-
-    @Mock
-    private ReleaseEventProducer releaseEventProducer;
 
     private MockMvc mockMvc;
 
@@ -104,7 +100,7 @@ public class ReleaseTrackingControllerTest {
     @Test
     public void testCreateRelease() throws Exception {
         // Setup
-        UpdateReleaseWsDTO releaseWsDTO = new UpdateReleaseWsDTO();
+        ReleaseRequestWsDTO releaseWsDTO = new ReleaseRequestWsDTO();
         releaseWsDTO.setName("Test Release");
         releaseWsDTO.setDescription("Test Description");
 
@@ -113,7 +109,7 @@ public class ReleaseTrackingControllerTest {
         newRelease.setName(releaseWsDTO.getName());
         newRelease.setDescription(releaseWsDTO.getDescription());
 
-        when(releaseService.createRelease(any(UpdateReleaseWsDTO.class))).thenReturn(newRelease);
+        when(releaseService.createRelease(any(ReleaseRequestWsDTO.class))).thenReturn(newRelease);
 
         // Exercise and Verify
         MvcResult result = mockMvc.perform(post("/releases")
@@ -132,7 +128,7 @@ public class ReleaseTrackingControllerTest {
     public void testUpdateRelease() throws Exception {
         // Setup
         Long id = 1L;
-        UpdateReleaseWsDTO releaseWsDTO = new UpdateReleaseWsDTO();
+        ReleaseRequestWsDTO releaseWsDTO = new ReleaseRequestWsDTO();
         releaseWsDTO.setName("Test Release");
         releaseWsDTO.setDescription("Test Description");
         releaseWsDTO.setStatus("DONE");
@@ -147,7 +143,6 @@ public class ReleaseTrackingControllerTest {
 
         ResponseEntity<Release> result = controller.updateRelease(id, releaseWsDTO);
         // Assert
-        verify(releaseEventProducer).sendReleaseEvent(eq(TOPIC_NAME), any(String.class));
         Release responseRelease = result.getBody();
         assertEquals(updatedRelease.getId(), responseRelease.getId());
         assertEquals(updatedRelease.getName(), responseRelease.getName());

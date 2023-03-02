@@ -1,5 +1,7 @@
 package com.bogdan.releasetracking.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Entity;
@@ -33,8 +35,10 @@ public class Release {
     @NotNull
     private LocalDate releaseDate;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime lastUpdateAt;
 
     public Long getId() {

@@ -1,13 +1,14 @@
 package com.bogdan.releasetracking.validator;
 
+import org.thymeleaf.util.StringUtils;
+
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-
-import com.bogdan.releasetracking.validator.ValueOfEnum;
 
 public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnum, CharSequence> {
     private List<String> acceptedValues;
@@ -22,10 +23,10 @@ public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnum, Ch
 
     @Override
     public boolean isValid(CharSequence value, ConstraintValidatorContext context) {
-        if (value == null) {
+        if (Objects.isNull(value) || StringUtils.isEmpty(value.toString())) {
             return true;
         }
 
-        return acceptedValues.contains(value.toString());
+        return acceptedValues.contains(value.toString().toUpperCase());
     }
 }

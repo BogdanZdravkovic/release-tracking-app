@@ -1,6 +1,6 @@
 package com.bogdan.releasetracking.service;
 
-import com.bogdan.releasetracking.dto.UpdateReleaseWsDTO;
+import com.bogdan.releasetracking.dto.ReleaseRequestWsDTO;
 import com.bogdan.releasetracking.model.Release;
 
 import java.util.List;
@@ -11,9 +11,9 @@ public interface ReleaseService {
 
     Release getReleaseById(Long id);
 
-    Release updateRelease(UpdateReleaseWsDTO releaseWsDTO, Long id);
+    Release updateRelease(ReleaseRequestWsDTO releaseWsDTO, Long id);
 
-    Release createRelease(UpdateReleaseWsDTO releaseWsDTO);
+    Release createRelease(ReleaseRequestWsDTO releaseWsDTO);
 
     void deleteRelease(Long id);
 }

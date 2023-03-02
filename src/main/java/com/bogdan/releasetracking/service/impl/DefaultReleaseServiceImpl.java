@@ -1,6 +1,6 @@
 package com.bogdan.releasetracking.service.impl;
 
-import com.bogdan.releasetracking.dto.UpdateReleaseWsDTO;
+import com.bogdan.releasetracking.dto.ReleaseRequestWsDTO;
 import com.bogdan.releasetracking.exception.ReleaseValidationException;
 import com.bogdan.releasetracking.model.Release;
 import com.bogdan.releasetracking.model.ReleaseStatus;
@@ -11,9 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -41,25 +38,22 @@ public class DefaultReleaseServiceImpl  implements ReleaseService {
     }
 
     @Override
-    @CachePut(value = "releases")
     public List<Release> getAllReleases() {
         return releaseRepository.findAll();
     }
 
     @Override
-    @Cacheable(value = "releases", key = "#id")
     public Release getReleaseById(Long id) {
         return releaseRepository.findById(id).orElseThrow(() -> new ReleaseValidationException("No release found for given ID.", String.valueOf(id)));
     }
 
     @Override
-    @CachePut(value = "releases", key = "#id")
-    public Release updateRelease(UpdateReleaseWsDTO releaseWsDTO, Long id) {
+    public Release updateRelease(ReleaseRequestWsDTO releaseWsDTO, Long id) {
         LOG.info("updating release: " + id);
         Release currentRelease = releaseRepository.findById(id).orElseThrow(RuntimeException::new);
         currentRelease.setName(releaseWsDTO.getName());
         currentRelease.setDescription(releaseWsDTO.getDescription());
-        currentRelease.setStatus(Enum.valueOf(ReleaseStatus.class, releaseWsDTO.getStatus()));
+        currentRelease.setStatus(Enum.valueOf(ReleaseStatus.class, releaseWsDTO.getStatus().toUpperCase()));
         currentRelease.setReleaseDate(validateRequestRelaseDate(releaseWsDTO.getReleaseDate()));
         currentRelease.setLastUpdateAt(LocalDateTime.now());
         releaseRepository.save(currentRelease);
@@ -67,8 +61,7 @@ public class DefaultReleaseServiceImpl  implements ReleaseService {
     }
 
     @Override
-    @CachePut(value = "releases")
-    public Release createRelease(UpdateReleaseWsDTO releaseWsDTO) {
+    public Release createRelease(ReleaseRequestWsDTO releaseWsDTO) {
         Release newRelease = new Release();
         newRelease.setName(releaseWsDTO.getName());
         newRelease.setDescription(releaseWsDTO.getDescription());
@@ -82,7 +75,6 @@ public class DefaultReleaseServiceImpl  implements ReleaseService {
     }
 
     @Override
-    @CacheEvict(value = "releases", key = "#id")
     public void deleteRelease(Long id) {
         releaseRepository.deleteById(id);
     }
