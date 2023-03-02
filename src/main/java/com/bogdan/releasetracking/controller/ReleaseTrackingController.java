@@ -3,6 +3,7 @@ package com.bogdan.releasetracking.controller;
 import com.bogdan.releasetracking.dto.UpdateReleaseWsDTO;
 import com.bogdan.releasetracking.model.Release;
 import com.bogdan.releasetracking.service.ReleaseService;
+import com.bogdan.releasetracking.service.impl.ReleaseEventProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.slf4j.Logger;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -22,6 +22,9 @@ import java.util.Objects;
 public class ReleaseTrackingController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReleaseTrackingController.class);
+
+    @Autowired
+    private ReleaseEventProducer releaseEventProducer;
 
     @Autowired
     private ReleaseService releaseService;
@@ -62,6 +65,7 @@ public class ReleaseTrackingController {
     @ApiResponse(responseCode = "404", description = "Release not found")
     public ResponseEntity<Release> updateRelease(@PathVariable Long id, @Valid @RequestBody UpdateReleaseWsDTO releaseWsDTO) {
         LOG.info("inside updateRelease() method");
+        releaseEventProducer.sendReleaseEvent("${spring.kafka.topic.name}" ,releaseWsDTO.getStatus());
         Release currentRelease = releaseService.updateRelease(releaseWsDTO, id);
         return ResponseEntity.ok(currentRelease);
     }
@@ -74,9 +78,4 @@ public class ReleaseTrackingController {
         releaseService.deleteRelease(id);
         return ResponseEntity.noContent().build();
     }
-
-//    @RequestMapping(value = "/", method = RequestMethod.GET)
-//    public void redirect(HttpServletResponse httpResponse) throws Exception {
-//        httpResponse.sendRedirect("/releases");
-//    }
 }
