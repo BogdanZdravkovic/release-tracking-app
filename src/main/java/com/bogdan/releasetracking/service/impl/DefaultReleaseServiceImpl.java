@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -38,16 +40,19 @@ public class DefaultReleaseServiceImpl  implements ReleaseService {
     }
 
     @Override
+    @CachePut(value = "releases")
     public List<Release> getAllReleases() {
         return releaseRepository.findAll();
     }
 
     @Override
+    @CachePut(value = "releases", key = "#id")
     public Release getReleaseById(Long id) {
         return releaseRepository.findById(id).orElseThrow(() -> new ReleaseValidationException("No release found for given ID.", String.valueOf(id)));
     }
 
     @Override
+    @CachePut(value = "releases", key = "#id")
     public Release updateRelease(ReleaseRequestWsDTO releaseWsDTO, Long id) {
         LOG.info("updating release: " + id);
         Release currentRelease = releaseRepository.findById(id).orElseThrow(RuntimeException::new);
@@ -61,6 +66,7 @@ public class DefaultReleaseServiceImpl  implements ReleaseService {
     }
 
     @Override
+    @CachePut(value = "releases")
     public Release createRelease(ReleaseRequestWsDTO releaseWsDTO) {
         Release newRelease = new Release();
         newRelease.setName(releaseWsDTO.getName());
@@ -75,6 +81,7 @@ public class DefaultReleaseServiceImpl  implements ReleaseService {
     }
 
     @Override
+    @CacheEvict(value = "releases", key = "#id")
     public void deleteRelease(Long id) {
         releaseRepository.deleteById(id);
     }

@@ -3,6 +3,7 @@ package com.bogdan.releasetracking.controller;
 import com.bogdan.releasetracking.dto.ReleaseRequestWsDTO;
 import com.bogdan.releasetracking.model.Release;
 import com.bogdan.releasetracking.service.ReleaseService;
+import com.bogdan.releasetracking.service.impl.ReleaseEventProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.slf4j.Logger;
@@ -21,6 +22,10 @@ import java.util.Objects;
 public class ReleaseTrackingController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReleaseTrackingController.class);
+    private static final String TOPIC_NAME = "release_tracking";
+
+    @Autowired
+    private ReleaseEventProducer releaseEventProducer;
 
     @Autowired
     private ReleaseService releaseService;
@@ -43,7 +48,7 @@ public class ReleaseTrackingController {
         if (Objects.nonNull(release)) {
             return ResponseEntity.ok(release);
         }
-        return ResponseEntity.notFound().build(); //  TODO throw exception
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
@@ -61,6 +66,7 @@ public class ReleaseTrackingController {
     @ApiResponse(responseCode = "404", description = "Release not found")
     public ResponseEntity<Release> updateRelease(@PathVariable Long id, @Valid @RequestBody ReleaseRequestWsDTO releaseWsDTO) {
         LOG.info("inside updateRelease() method");
+//        releaseEventProducer.sendReleaseEvent(TOPIC_NAME, releaseWsDTO.getStatus()); kafka konfiguraiton disabled
         Release currentRelease = releaseService.updateRelease(releaseWsDTO, id);
         return ResponseEntity.ok(currentRelease);
     }
